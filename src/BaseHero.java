@@ -26,9 +26,9 @@ public class BaseHero {
         this.speed = speed;
     }
 
-        @Override
-        public String toString () {
-            return String.format("Player %s - Type: %s HP: %d Attack: %d Defence: %d Damage: %s  Speed: %d",
-                     name, this.getClass().getSimpleName(), hp, attack, defence, Arrays.toString(damage), speed);
-        }
+    @Override
+    public String toString() {
+        return String.format("Player %s - Type: %s HP: %d Attack: %d Defence: %d Damage: %s  Speed: %d",
+                name, this.getClass().getSimpleName(), hp, attack, defence, Arrays.toString(damage), speed);
     }
+}
