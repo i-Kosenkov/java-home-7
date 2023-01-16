@@ -59,6 +59,7 @@ public class Main {
             }
             getMenu();
         }
+
         for (Object o : list) {
             if (o.getClass().getName().equals(nameClass)) {
                 System.out.println(o);
