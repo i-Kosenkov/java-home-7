@@ -6,9 +6,10 @@ import java.util.Scanner;
 public class Main {
     public static ArrayList<BaseHero> team1 = new ArrayList<>();
     public static ArrayList<BaseHero> team2 = new ArrayList<>();
+    public static Scanner input = new Scanner(System.in);
+    public static int count = 10;
 
     public static void main(String[] args) {
-        int count = 10;
         Random rand = new Random();
         for (int i = 0; i < count; i++) {
             switch (rand.nextInt(4)) {
@@ -17,10 +18,7 @@ public class Main {
                 case (2) -> team1.add(new Sniper());
                 case (3) -> team1.add(new Magician());
             }
-            System.out.println(team1.get(i));
         }
-        System.out.println("------------\n" + "Healing metod for Team 1");
-        getHealing(team1);
 
         System.out.println("-----------------");
         for (int i = 0; i < count; i++) {
@@ -31,16 +29,15 @@ public class Main {
                 case (3) -> team2.add(new Crossbowman());
                 case (4) -> team2.add(new Monk());
             }
-            System.out.println(team2.get(i));
         }
-        System.out.println("------------\n" + "Healing metod for Team 2");
-        getHealing(team2);
+        getListPlayers(team1);
+        getListPlayers(team2);
+        getStep();
 
 //        getMenu();
     }
 
     public static void getMenu() {
-        Scanner input = new Scanner(System.in);
         while (true) {
             System.out.println("Choose sorting class:");
             System.out.println("0 -> All");
@@ -66,7 +63,7 @@ public class Main {
                 case ("6") -> getSortedClass(team1, "Crossbowman");
                 case ("7") -> getSortedClass(team1, "Monk");
                 case ("a") -> getAttack();
-                case ("h") -> getHealing(team1);
+//                case ("h") -> getHealing(team1);
                 case ("x") -> System.exit(0);
             }
         }
@@ -104,11 +101,37 @@ public class Main {
         input.nextLine();
     }
 
-    public static void getHealing(ArrayList<BaseHero> teamList){
-        for (int i = 0; i < teamList.size(); i++) {
-            if (teamList.get(i).getClass().getName().equals(("Magician")) || teamList.get(i).getClass().getName().equals(("Monk"))) {
-                System.out.println(teamList.get(i));
-                teamList.get(i).step(teamList);
+    public static void getListPlayers(ArrayList<BaseHero> teamList) {
+        for (Object o : teamList) {
+            System.out.println(o);
+        }
+        System.out.println();
+    }
+
+    public static void getStep() {
+        int numRound = 0;
+        while (true) {
+            System.out.println("Press ENTER for next step or P to view all the players or X for exit.");
+            String choice = input.nextLine().toLowerCase();
+            switch (choice) {
+                case ("") -> numRound += 1;
+                case ("p") -> {
+                    getListPlayers(team1);
+                    getListPlayers(team2);
+                    System.out.println("Press ENTER for next step");
+                    input.nextLine();
+                    numRound += 1;
+                }
+                case ("x") -> System.exit(0);
+            }
+
+            System.out.println("STEP " + numRound);
+            for (int i = 0; i < count; i++) {
+                team1.get(i).step(team1);
+            }
+            System.out.println("-----------------");
+            for (int i = 0; i < count; i++) {
+                team2.get(i).step(team2);
             }
         }
     }
