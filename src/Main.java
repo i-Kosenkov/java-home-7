@@ -33,7 +33,6 @@ public class Main {
         getListPlayers(team1);
         getListPlayers(team2);
         getStep();
-
 //        getMenu();
     }
 
