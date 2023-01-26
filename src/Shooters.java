@@ -4,21 +4,26 @@ public class Shooters extends BaseHero {
     int shots;
     int maxShots;
 
-    public Shooters(String name, int hp, int attack, int defence, int[] damage, int speed, int shots) {
-        super(name, hp, attack, defence, damage, speed);
+    public Shooters(ArrayList<BaseHero> myTeam, String name, int hp, int attack, int defence, int[] damage, int speed, int shots, int x, int y) {
+        super(myTeam, name, hp, attack, defence, damage, speed, x, y);
         this.maxShots = shots;
         this.shots = shots;
     }
 
     @Override
     public String toString() {
-        return super.toString() + " Shots: " + shots;
+        return String.format("%s %s %02d/%02d", super.toString(), "\uD83C\uDFF9", shots, maxShots);
     }
 
     public void step(ArrayList<BaseHero> teamList) {
-        if (this.shots > 0) {
-            this.shots -= 1;
-            System.out.println("Player " + this.name + " (" + this.getClass().getSimpleName() + ")" + " fired one arrow ↣ " + "Remaining arrow: " + this.shots);
+        if (this.hp == 0) {
+            System.out.println(this.name + " " + this.getClass().getSimpleName() + " is dead ❌");
+        } else {
+            if (this.shots > 0) {
+                this.shots -= 1;
+                System.out.println(this.name + " " + this.getClass().getSimpleName() + " fired one arrow \uD83C\uDFF9 "
+                        + "Remaining arrow: " + this.shots + "/" + maxShots);
+            }
         }
     }
 

@@ -1,39 +1,55 @@
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
-    public static ArrayList<BaseHero> team1 = new ArrayList<>();
-    public static ArrayList<BaseHero> team2 = new ArrayList<>();
+    public static ArrayList<BaseHero> leftSide;
+    public static ArrayList<BaseHero> rightSide;
     public static Scanner input = new Scanner(System.in);
-    public static int count = 10;
+    public static final int TEAM_SIZE = 10;
 
     public static void main(String[] args) {
-        Random rand = new Random();
-        for (int i = 0; i < count; i++) {
-            switch (rand.nextInt(4)) {
-                case (0) -> team1.add(new Peasant());
-                case (1) -> team1.add(new Outlaw());
-                case (2) -> team1.add(new Sniper());
-                case (3) -> team1.add(new Magician());
+        init();
+        getStep();
+//        getMenu();
+    }
+
+    public static void init() {
+        leftSide = new ArrayList<>();
+        rightSide = new ArrayList<>();
+        int x = 1;
+        int y = 1;
+        for (int i = 0; i < TEAM_SIZE; i++) {
+            switch (new Random().nextInt(4)) {
+                case (0) -> leftSide.add(new Peasant(leftSide, x, y++));
+                case (1) -> leftSide.add(new Outlaw(leftSide, x, y++));
+                case (2) -> leftSide.add(new Sniper(leftSide, x, y++));
+                case (3) -> leftSide.add(new Magician(leftSide, x, y++));
             }
         }
 
-        System.out.println("-----------------");
-        for (int i = 0; i < count; i++) {
-            switch (rand.nextInt(5)) {
-                case (0) -> team2.add(new Peasant());
-                case (1) -> team2.add(new Outlaw());
-                case (2) -> team2.add(new Spearman());
-                case (3) -> team2.add(new Crossbowman());
-                case (4) -> team2.add(new Monk());
+        x = TEAM_SIZE;
+        y = 1;
+        for (int i = 0; i < TEAM_SIZE; i++) {
+            switch (new Random().nextInt(4)) {
+                case (0) -> rightSide.add(new Peasant(rightSide, x, y++));
+                case (1) -> rightSide.add(new Spearman(rightSide, x, y++));
+                case (2) -> rightSide.add(new Crossbowman(rightSide, x, y++));
+                case (3) -> rightSide.add(new Monk(rightSide, x, y++));
             }
         }
-        getListPlayers(team1);
-        getListPlayers(team2);
-        getStep();
-//        getMenu();
+    }
+
+    public static void getStep() {
+        int numRound = 1;
+        while (true) {
+            ConsoleView.view();
+            input.nextLine();
+            System.out.println(AnsiColors.ANSI_GREEN + "STEP " + numRound + AnsiColors.ANSI_RESET);
+            leftSide.forEach(item -> item.step(rightSide));
+            System.out.println("------------------------");
+            rightSide.forEach(item -> item.step(leftSide));
+            numRound += 1;
+
+        }
     }
 
     public static void getMenu() {
@@ -53,15 +69,15 @@ public class Main {
             System.out.print("Input number: ");
             String choice = input.nextLine().toLowerCase();
             switch (choice) {
-                case ("0") -> getSortedClass(team1, "BaseHero");
-                case ("1") -> getSortedClass(team1, "Peasant");
-                case ("2") -> getSortedClass(team1, "Outlaw");
-                case ("3") -> getSortedClass(team1, "Sniper");
-                case ("4") -> getSortedClass(team1, "Magician");
-                case ("5") -> getSortedClass(team1, "Spearman");
-                case ("6") -> getSortedClass(team1, "Crossbowman");
-                case ("7") -> getSortedClass(team1, "Monk");
-                case ("a") -> getAttack();
+                case ("0") -> getSortedClass(leftSide, "BaseHero");
+                case ("1") -> getSortedClass(leftSide, "Peasant");
+                case ("2") -> getSortedClass(leftSide, "Outlaw");
+                case ("3") -> getSortedClass(leftSide, "Sniper");
+                case ("4") -> getSortedClass(leftSide, "Magician");
+                case ("5") -> getSortedClass(leftSide, "Spearman");
+                case ("6") -> getSortedClass(leftSide, "Crossbowman");
+                case ("7") -> getSortedClass(leftSide, "Monk");
+//                case ("a") -> getAttack();
 //                case ("h") -> getHealing(team1);
                 case ("x") -> System.exit(0);
             }
@@ -78,59 +94,6 @@ public class Main {
         for (Object o : list) {
             if (o.getClass().getName().equals(nameClass)) {
                 System.out.println(o);
-            }
-        }
-    }
-
-    public static void getAttack() {
-        Random r = new Random();
-        Scanner input = new Scanner(System.in);
-        int player1 = r.nextInt(0, team1.size());
-        int player2 = r.nextInt(0, team2.size());
-
-        while (team1.get(player1).getClass().getName().equals("Monk") || team1.get(player1).getClass().getName().equals("Magician")) {
-            player1 = r.nextInt(0, 50);
-        }
-
-        System.out.println(team1.get(player1));
-        System.out.println("↓ Attack ↓");
-        System.out.println(team2.get(player2));
-        team1.get(player1).Attack(team2.get(player2));
-        System.out.println(team2.get(player2));
-        input.nextLine();
-    }
-
-    public static void getListPlayers(ArrayList<BaseHero> teamList) {
-        for (Object o : teamList) {
-            System.out.println(o);
-        }
-        System.out.println();
-    }
-
-    public static void getStep() {
-        int numRound = 0;
-        while (true) {
-            System.out.println("Press ENTER for next step or P to view all the players or X for exit.");
-            String choice = input.nextLine().toLowerCase();
-            switch (choice) {
-                case ("") -> numRound += 1;
-                case ("p") -> {
-                    getListPlayers(team1);
-                    getListPlayers(team2);
-                    System.out.println("Press ENTER for next step");
-                    input.nextLine();
-                    numRound += 1;
-                }
-                case ("x") -> System.exit(0);
-            }
-
-            System.out.println("STEP " + numRound);
-            for (int i = 0; i < count; i++) {
-                team1.get(i).step(team1);
-            }
-            System.out.println("-----------------");
-            for (int i = 0; i < count; i++) {
-                team2.get(i).step(team2);
             }
         }
     }
