@@ -13,20 +13,19 @@ public class ConsoleView {
 
     //----------------отрисовка строчек псевдографики таблицы --------конец-----------------
     public static void view() {
-        System.out.println(ConsoleView.top10);
-
+//        System.out.println(ConsoleView.top10);
         for (int i = 1; i <= Main.TEAM_SIZE - 1; i++) {
             for (int j = 1; j <= Main.TEAM_SIZE; j++) {
                 System.out.print(getHeroChar(new Vector2(j, i)));
             }
             System.out.println();
-            System.out.println(ConsoleView.mid10);
+//            System.out.println(ConsoleView.mid10);
         }
         for (int j = 1; j <= Main.TEAM_SIZE; j++) {
             System.out.print(getHeroChar(new Vector2(j, Main.TEAM_SIZE)));
         }
         System.out.println();
-        System.out.println(ConsoleView.bott10);
+//        System.out.println(ConsoleView.bott10);
         System.out.println("Press ENTER for next step");
     }
 
@@ -44,17 +43,45 @@ public class ConsoleView {
     }
 
     private static String getHeroChar(Vector2 position) {
-        String str = "|  ";
+        String str = "|__";
         for (int i = 0; i < Main.TEAM_SIZE; i++) {
 
-            if (Main.leftSide.get(i).getPosition().isEquals(position)) {
-                str = "|" + AnsiColors.ANSI_GREEN + Main.leftSide.get(i).name.substring(0, 2) + AnsiColors.ANSI_RESET;
-            }
+            if (Main.leftSide.get(i).hp != 0) {
+                if (Main.leftSide.get(i).getPosition().isEquals(position)) {
+                    str = "|" + AnsiColors.ANSI_GREEN + Main.leftSide.get(i).name.substring(0, 2) + AnsiColors.ANSI_RESET;
+                }
 
-            if (Main.rightSide.get(i).getPosition().isEquals(position)) {
-                str = "|" + AnsiColors.ANSI_BLUE + Main.rightSide.get(i).name.substring(0, 2) + AnsiColors.ANSI_RESET + "|"
-                        + " ".repeat(3) + AnsiColors.ANSI_GREEN + Main.leftSide.get(i).toString() + AnsiColors.ANSI_RESET
-                        + " ".repeat(5) + AnsiColors.ANSI_BLUE + Main.rightSide.get(i).toString() + AnsiColors.ANSI_RESET;
+                if (Main.rightSide.get(i).hp != 0) {
+                    if (Main.rightSide.get(i).getPosition().isEquals(position)) {
+                        str = "|" + AnsiColors.ANSI_BLUE + Main.rightSide.get(i).name.substring(0, 2) + AnsiColors.ANSI_RESET + "|"
+                                + " ".repeat(3) + AnsiColors.ANSI_GREEN + Main.leftSide.get(i).toString() + AnsiColors.ANSI_RESET
+                                + " ".repeat(5) + AnsiColors.ANSI_BLUE + Main.rightSide.get(i).toString() + AnsiColors.ANSI_RESET;
+                    }
+                } else {
+                    if (Main.rightSide.get(i).getPosition().isEquals(position)) {
+                        str = "|" + AnsiColors.ANSI_RED + Main.rightSide.get(i).name.substring(0, 2) + AnsiColors.ANSI_RESET + "|"
+                                + " ".repeat(3) + AnsiColors.ANSI_GREEN + Main.leftSide.get(i).toString() + AnsiColors.ANSI_RESET
+                                + " ".repeat(5) + AnsiColors.ANSI_RED + Main.rightSide.get(i).toString() + AnsiColors.ANSI_RESET;
+                    }
+                }
+            } else {
+                if (Main.leftSide.get(i).getPosition().isEquals(position)) {
+                    str = "|" + AnsiColors.ANSI_RED + Main.leftSide.get(i).name.substring(0, 2) + AnsiColors.ANSI_RESET;
+                    if (Main.rightSide.get(i).hp != 0) {
+                        if (Main.rightSide.get(i).getPosition().isEquals(position)) {
+                            str = "|" + AnsiColors.ANSI_BLUE + Main.rightSide.get(i).name.substring(0, 2) + AnsiColors.ANSI_RESET + "|"
+                                    + " ".repeat(3) + AnsiColors.ANSI_RED + Main.leftSide.get(i).toString() + AnsiColors.ANSI_RESET
+                                    + " ".repeat(5) + AnsiColors.ANSI_BLUE + Main.rightSide.get(i).toString() + AnsiColors.ANSI_RESET;
+                        }
+
+                    } else {
+                        if (Main.rightSide.get(i).getPosition().isEquals(position)) {
+                            str = "|" + AnsiColors.ANSI_RED + Main.rightSide.get(i).name.substring(0, 2) + "|"
+                                    + " ".repeat(3) + AnsiColors.ANSI_RED + Main.leftSide.get(i).toString()
+                                    + " ".repeat(5) + AnsiColors.ANSI_RED + Main.rightSide.get(i).toString() + AnsiColors.ANSI_RESET;
+                        }
+                    }
+                }
             }
         }
         return str;
