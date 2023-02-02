@@ -22,7 +22,7 @@ public abstract class BaseHero implements Face {
     protected Vector2 position;
 
     public BaseHero(ArrayList<BaseHero> myTeam, String name, int hp, int attack, int defence, int[] damage, int speed, int x, int y) {
-        this.position = new Vector2(x, y);
+        this.position = new Vector2(y, x);
         this.name = name;
         this.maxHp = hp;
         this.hp = hp;
@@ -78,6 +78,16 @@ public abstract class BaseHero implements Face {
         return damage;
     }
 
+    public boolean getFreeCell(ArrayList<BaseHero> myTeam, ArrayList<BaseHero> teamList, int x, int y) {
+        boolean free = true;
+        for (BaseHero item : myTeam) {
+            if (item.position.x == x && item.position.y == y) {
+                free = false;
+                break;
+            }
+        }
+        return free;
+    }
 
     @Override
     public void step(ArrayList<BaseHero> teamList) {

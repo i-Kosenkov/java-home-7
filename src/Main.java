@@ -19,10 +19,10 @@ public class Main {
         int y = 1;
         for (int i = 0; i < TEAM_SIZE; i++) {
             switch (new Random().nextInt(4)) {
-                case (0) -> leftSide.add(new Peasant(leftSide, x, y++));
+                case (0) -> leftSide.add(new Magician(leftSide, x, y++));
                 case (1) -> leftSide.add(new Outlaw(leftSide, x, y++));
-                case (2) -> leftSide.add(new Sniper(leftSide, x, y++));
-                case (3) -> leftSide.add(new Magician(leftSide, x, y++));
+                case (2) -> leftSide.add(new Peasant(leftSide, x, y++));
+                case (3) -> leftSide.add(new Sniper(leftSide, x, y++));
             }
         }
 
@@ -30,10 +30,10 @@ public class Main {
         y = 1;
         for (int i = 0; i < TEAM_SIZE; i++) {
             switch (new Random().nextInt(4)) {
-                case (0) -> rightSide.add(new Peasant(rightSide, x, y++));
-                case (1) -> rightSide.add(new Spearman(rightSide, x, y++));
-                case (2) -> rightSide.add(new Crossbowman(rightSide, x, y++));
-                case (3) -> rightSide.add(new Monk(rightSide, x, y++));
+                case (0) -> rightSide.add(new Spearman(rightSide, x, y++));
+                case (1) -> rightSide.add(new Crossbowman(rightSide, x, y++));
+                case (2) -> rightSide.add(new Monk(rightSide, x, y++));
+                case (3) -> rightSide.add(new Peasant(rightSide, x, y++));
             }
         }
     }
@@ -53,7 +53,7 @@ public class Main {
                 break;
             }
             if (checkWin(leftSide)) {
-                System.out.println("\uD83D\uDC99\uD83E\uDD18\uD83D\uDC99RIGHT TEAM WIN!\uD83D\uDC99\uD83D\uDC99\uD83E\uDD18");
+                System.out.println("\uD83D\uDC99\uD83E\uDD18\uD83D\uDC99RIGHT TEAM WIN!\uD83D\uDC99\uD83E\uDD18\uD83D\uDC99");
                 break;
             }
             numRound += 1;
