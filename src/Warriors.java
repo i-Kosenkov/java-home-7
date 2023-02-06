@@ -42,6 +42,7 @@ public class Warriors extends BaseHero {
             } else {
                 this.position.y -= 1;
             }
+            System.out.println(this.name + " " + this.getClass().getSimpleName() + " run Forest run");
 
 
 //        System.out.println(this.position.x);

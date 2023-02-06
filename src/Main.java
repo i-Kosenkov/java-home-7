@@ -3,18 +3,30 @@ import java.util.*;
 public class Main {
     public static ArrayList<BaseHero> leftSide;
     public static ArrayList<BaseHero> rightSide;
+    public static ArrayList<BaseHero> sortList;
     public static Scanner input = new Scanner(System.in);
     public static final int TEAM_SIZE = 10;
 
     public static void main(String[] args) {
         init();
+        sortList = new ArrayList<>();
+        sortList.addAll(leftSide);
+        sortList.addAll(rightSide);
+
+        sortList.sort(Comparator.comparing(BaseHero::getSpeed, Comparator.reverseOrder()));
+//        for (BaseHero baseHero : sortList) {
+//            System.out.println(baseHero);
+//        }
+
         getStep();
 //        getMenu();
     }
 
+
     public static void init() {
         leftSide = new ArrayList<>();
         rightSide = new ArrayList<>();
+
         int x = 1;
         int y = 1;
         for (int i = 0; i < TEAM_SIZE; i++) {
@@ -36,6 +48,10 @@ public class Main {
                 case (3) -> rightSide.add(new Peasant(rightSide, x, y++));
             }
         }
+
+
+
+
     }
 
     public static void getStep() {
@@ -44,10 +60,20 @@ public class Main {
             ConsoleView.view();
             input.nextLine();
             System.out.println(AnsiColors.ANSI_GREEN + "STEP " + numRound + AnsiColors.ANSI_RESET);
-            leftSide.forEach(item -> item.step(rightSide));
-            System.out.println("------------------------");
-            rightSide.forEach(item -> item.step(leftSide));
-            System.out.println();
+
+            for (int i = 0; i < sortList.size(); i++) {
+                if (sortList.get(i).myTeam == leftSide){
+                    sortList.get(i).step(rightSide);
+                }
+                else {
+                    sortList.get(i).step(leftSide);
+                }
+            }
+
+//            leftSide.forEach(item -> item.step(rightSide));
+//            System.out.println("------------------------");
+//            rightSide.forEach(item -> item.step(leftSide));
+//            System.out.println();
             if (checkWin(rightSide)) {
                 System.out.println("\uD83D\uDC9A\uD83E\uDD18\uD83D\uDC9ALEFT TEAM WIN!\uD83D\uDC9A\uD83E\uDD18\uD83D\uDC9A");
                 break;

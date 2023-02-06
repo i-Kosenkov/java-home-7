@@ -86,8 +86,30 @@ public abstract class BaseHero implements Face {
                 break;
             }
         }
+        for (BaseHero item : teamList) {
+            if (item.position.x == x && item.position.y == y) {
+                free = false;
+                break;
+            }
+        }
         return free;
     }
+
+    public int getSpeed(){
+        return speed;
+    }
+
+    public void getFastPlayer(ArrayList<BaseHero> teamList){
+        int max = 0;
+        int index = 0;
+        for (int i = 0; i < teamList.size(); i++) {
+            if (max < teamList.get(i).speed){
+                max = teamList.get(i).speed;
+                index = i;
+            }
+        }
+    }
+
 
     @Override
     public void step(ArrayList<BaseHero> teamList) {
@@ -102,19 +124,23 @@ public abstract class BaseHero implements Face {
         return (hp * 100 / maxHp);
     }
 
+    public int getHP(){
+        return hp;
+    }
+
     public String getName() {
         return name;
     }
 
     public int getIndexPlayerMinHp(ArrayList<BaseHero> teamList) {
-        int max = 101;
+        float max = 101;
         int index = -1;
         for (int i = 0; i < teamList.size(); i++) {
-            if (teamList.get(i).hp != 0) {
-                if (teamList.get(i).getInfo() < max) {
-                    max = teamList.get(i).getInfo();
+//            if (teamList.get(i).hp == 0) {
+                if (teamList.get(i).getHP() < max) {
+                    max = teamList.get(i).getHP();
                     index = i;
-                }
+//                }
             }
         }
         return index;
