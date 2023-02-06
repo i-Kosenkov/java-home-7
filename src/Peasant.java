@@ -18,7 +18,7 @@ public class Peasant extends BaseHero {
 
     public void step(ArrayList<BaseHero> teamList) {
         if (this.hp == 0) {
-            System.out.println(this.name + " " + this.getClass().getSimpleName() + " is dead ❌☠️");
+            System.out.println(AnsiColors.ANSI_RED + this.name + " " + this.getClass().getSimpleName() + " is dead ❌☠️" + AnsiColors.ANSI_RESET);
         } else {
             Map<Integer, Integer> mapInfoShot = new HashMap<>();
             for (int i = 0; i < myTeam.size(); i++) {

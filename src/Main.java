@@ -47,9 +47,28 @@ public class Main {
             leftSide.forEach(item -> item.step(rightSide));
             System.out.println("------------------------");
             rightSide.forEach(item -> item.step(leftSide));
+            System.out.println();
+            if (checkWin(rightSide)) {
+                System.out.println("\uD83D\uDC9A\uD83E\uDD18\uD83D\uDC9ALEFT TEAM WIN!\uD83D\uDC9A\uD83E\uDD18\uD83D\uDC9A");
+                break;
+            }
+            if (checkWin(leftSide)) {
+                System.out.println("\uD83D\uDC99\uD83E\uDD18\uD83D\uDC99RIGHT TEAM WIN!\uD83D\uDC99\uD83D\uDC99\uD83E\uDD18");
+                break;
+            }
             numRound += 1;
-
         }
+    }
+
+    public static boolean checkWin(ArrayList<BaseHero> teamList) {
+        boolean win = true;
+        for (BaseHero baseHero : teamList) {
+            if (baseHero.hp != 0) {
+                win = false;
+                break;
+            }
+        }
+        return win;
     }
 
     public static void getMenu() {

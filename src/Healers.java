@@ -15,16 +15,17 @@ public class Healers extends BaseHero {
 
     public void step(ArrayList<BaseHero> teamList) {
         if (this.hp <= 0) {
-            System.out.println(this.name + " " + this.getClass().getSimpleName() + " is dead ❌☠️");
+            System.out.println(AnsiColors.ANSI_RED + this.name + " " + this.getClass().getSimpleName() + " is dead ❌☠️" + AnsiColors.ANSI_RESET);
         } else {
             int index = getIndexPlayerMinHp(myTeam);
+            int d = r.nextInt(this.damage[0], this.damage[1]);
             if (index != -1 && myTeam.get(index).hp != myTeam.get(index).maxHp) {
-                if (myTeam.get(index).hp - this.damage[0] > myTeam.get(index).maxHp) {
+                if (myTeam.get(index).hp - d > myTeam.get(index).maxHp) {
                     myTeam.get(index).hp = myTeam.get(index).maxHp;
                 } else {
-                    myTeam.get(index).hp -= this.damage[0];
+                    myTeam.get(index).hp -= d;
                 }
-                System.out.println(this.name + " " + this.getClass().getSimpleName() + " healed \uD83D\uDC9A " + myTeam.get(index));
+                System.out.println(this.name + " " + this.getClass().getSimpleName() + " healed " + (-d) + " \uD83D\uDC9A " + myTeam.get(index));
             } else {
                 System.out.println(this.name + " " + this.getClass().getSimpleName() + " \uD83D\uDE34");
             }

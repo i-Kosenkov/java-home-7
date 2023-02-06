@@ -25,7 +25,7 @@ public abstract class BaseHero implements Face {
         this.position = new Vector2(x, y);
         this.name = name;
         this.maxHp = hp;
-        this.hp = hp - r.nextInt(0, maxHp);
+        this.hp = hp;
         this.attack = attack;
         this.defence = defence;
         this.damage = damage;
@@ -35,8 +35,14 @@ public abstract class BaseHero implements Face {
 
     @Override
     public String toString() {
-        return String.format("%s %s \uD83D\uDC98%02d/%02d  \uD83D\uDDE1️%d  \uD83D\uDD30%d  \uD83D\uDCAA%s  \uD83C\uDFC3%d  ",
+        return String.format("%s %s \uD83D\uDC94%02d/%02d  \uD83D\uDDE1️%d  \uD83D\uDD30%d  \uD83D\uDCAA%s  \uD83C\uDFC3%d ",
                 name, getClass().getSimpleName(), hp, maxHp, attack, defence, Arrays.toString(damage), speed);
+    }
+
+    public float getDistance(int x2, int y2) {
+        float dx = x2 - position.x;
+        float dy = y2 - position.y;
+        return (float) Math.sqrt(dx * dx + dy * dy);
     }
 
     public void getDamage(int d) {
@@ -49,6 +55,29 @@ public abstract class BaseHero implements Face {
             this.hp = 0;
         }
     }
+
+    public int attack(ArrayList<BaseHero> teamList, float minDistance, int indexPlayer) {
+        int damage;
+        if (minDistance > 4) {
+            if (teamList.get(indexPlayer).defence < this.attack) {
+                teamList.get(indexPlayer).getDamage(this.damage[0] + 1);
+                damage = this.damage[0] + 1;
+            } else {
+                teamList.get(indexPlayer).getDamage(this.damage[0] - 1);
+                damage = this.damage[0] - 1;
+            }
+        } else {
+            if (teamList.get(indexPlayer).defence < this.attack) {
+                teamList.get(indexPlayer).getDamage(this.damage[1] + 1);
+                damage = this.damage[1] + 1;
+            } else {
+                teamList.get(indexPlayer).getDamage(this.damage[1] - 1);
+                damage = this.damage[1] - 1;
+            }
+        }
+        return damage;
+    }
+
 
     @Override
     public void step(ArrayList<BaseHero> teamList) {
